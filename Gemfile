@@ -46,3 +46,4 @@ end
 gem 'pg'
 gem 'httparty'       
 gem 'geocoder'        
+gem 'redis', '>= 4.0.1'
