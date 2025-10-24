@@ -29,6 +29,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -42,6 +43,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-
+gem 'pg'
 gem 'httparty'       
 gem 'geocoder'        

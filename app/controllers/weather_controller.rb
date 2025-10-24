@@ -7,7 +7,8 @@ class WeatherController < ApplicationController
 
   def forecast
     @address  = params[:address ]
-    return redirect_to root_path, alert: "Please Enter Address" if @address .blank?
+    #redirect if address is blank
+    return redirect_to root_path, alert: "Please Enter Address" if @address.blank?
 
     result = Geocoder.search(@address )
 
@@ -15,16 +16,19 @@ class WeatherController < ApplicationController
       return redirect_to root_path, alert: "Invalid Address, Please enter proper address"
     end
 
+    #fetching latitude and longitude based on result
     latitude, longitude = result.first.coordinates 
 
+    #unique key based on address
     cache_key = "weather_#{@address .parameterize}"
     cached_data = Rails.cache.read(cache_key)
 
+    #if cached data present the use it
     if cached_data.present?
       @weather_data = cached_data
       @from_cache = true
     else 
-      api_key = ''
+      api_key = ENV['OPENWEATHER_API_KEY']
       api_params =  {
         'lat' => latitude,
         'lon' => longitude,
@@ -32,6 +36,7 @@ class WeatherController < ApplicationController
         'appid' => api_key
       }
 
+      #fetch weather using openweathermap api
       response = self.class.get("/weather", query: api_params)
       if response.success?
         data = response.parsed_response
@@ -42,6 +47,7 @@ class WeatherController < ApplicationController
           description: data["weather"][0]["description"]
         }
 
+        #write to cache for newly fetched weather data
         Rails.cache.write(cache_key, @weather_data, expires_in: 30.minutes)
         @from_cache = false
       else
@@ -53,6 +59,7 @@ class WeatherController < ApplicationController
   end
 
   def about
+    #controller action to show about page
   end
 
 end
