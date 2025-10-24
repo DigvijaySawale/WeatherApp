@@ -1,24 +1,25 @@
-# README
+# Weather Forecast App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple Ruby on Rails application based on the latest version of Ruby-3 and Rails-8 that fetches weather forecast information using OpenWeatherMap API, caches the previouse results and displays the results on search.
 
-Things you may want to cover:
+Usage and Feature:
 
-* Ruby version
+* Accepts City name or Zip code as input
 
-* System dependencies
+* Retrieves current temperature along with high/low and weather description 
 
-* Configuration
+* Caches the results for 30 minutes per address for faster results and displays whether result is fetched from cache
 
-* Database creation
+* Integrated Bootstrap nav bar and components for better styling and have scope to add more feature in future.
 
-* Database initialization
 
-* How to run the test suite
+Tech Stack:
+  * Ruby on Rails(LTS)
 
-* Services (job queues, cache servers, search engines, etc.)
+  * BootStrap 5 for styling
+  
+  * HTTParty for API requests
 
-* Deployment instructions
+  * Rails cache
 
-* ...
+  * OpenWeatherMap API key

@@ -6,18 +6,18 @@ class WeatherController < ApplicationController
   end
 
   def forecast
-    address = params[:address]
-    return redirect_to root_path, alert: "Please Enter Address" if address.blank?
+    @address  = params[:address ]
+    return redirect_to root_path, alert: "Please Enter Address" if @address .blank?
 
-    result = Geocoder.search(address)
+    result = Geocoder.search(@address )
 
     if result.empty?
-      return redirect_to root_path, alert: "Invalid Address"
+      return redirect_to root_path, alert: "Invalid Address, Please enter proper address"
     end
 
     latitude, longitude = result.first.coordinates 
 
-    cache_key = "weather_#{address.parameterize}"
+    cache_key = "weather_#{@address .parameterize}"
     cached_data = Rails.cache.read(cache_key)
 
     if cached_data.present?
@@ -50,6 +50,9 @@ class WeatherController < ApplicationController
     end
     render :index
 
+  end
+
+  def about
   end
 
 end

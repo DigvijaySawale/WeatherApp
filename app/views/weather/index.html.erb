@@ -1,21 +1,46 @@
-<h2>Weather Forecast</h2>
-<% if alert%>
-  <%= alert%>
-<%end%>
-<%= form_with url: forecast_path, method: :post, local: true,data: { turbo: false } do %>
-  <div>
-    <%= label_tag :address, "Enter Address or Zip Code:" %>
-    <%= text_field_tag :address, params[:address], required: true %>
-  </div>
-  <%= submit_tag "Get Forecast" %>
+<br/>
+ <%= form_with url: forecast_path, method: :post, local: true, data: { turbo: false }, class: "d-flex", role: "search" do %>
+  <%= text_field_tag :address, params[:address], placeholder: "Enter city name or ZIP code", class: "form-control me-2", required: true, aria: { label: "Search" } %>
+  <%= submit_tag "Search", class: "btn btn-outline-success" %>
 <% end %>
-
+<br/>
 <% if @weather_data.present? %>
-  <h3>Forecast for <%= @address %></h3>
-  <p>Temperature: <%= @weather_data[:temp] %>°C</p>
-  <p>Condition: <%= @weather_data[:description] %></p>
-  <p>High: <%= @weather_data[:high] %>°C | Low: <%= @weather_data[:low] %>°C</p>
-  <% if @from_cache %>
-    <p style="color: green;">(Fetched from cache ✅)</p>
-  <% end %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Index</th>
+      <th scope="col">Data</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Forecast for</th>
+      <td> <%= @address %></td>
+    </tr>
+    <tr>
+      <th scope="row">Temperature</th>
+      <td><%= @weather_data[:temp] %>°C</td>
+    </tr>
+    <tr>
+      <th scope="row">Condition</th>
+      <td><%= @weather_data[:description] %></td>
+    </tr>
+    <tr>
+      <th scope="row">Highest Temperature</th>
+      <td><%= @weather_data[:high] %>°C</td>
+    </tr>
+    <tr>
+      <th scope="row">Lowest Temperature</th>
+      <td><%= @weather_data[:low] %>°C</td>
+    </tr>
+    <tr>
+      <th scope="row">Result from cache</th>
+      <% if @from_cache %>
+        <td class="table-success">Yes</td>
+      <% else %>
+        <td class="table-danger">No</td>
+      <% end %>
+    </tr>
+  </tbody>
+</table>
 <% end %>
