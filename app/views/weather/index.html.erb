@@ -1,0 +1,21 @@
+<h2>Weather Forecast</h2>
+<% if alert%>
+  <%= alert%>
+<%end%>
+<%= form_with url: forecast_path, method: :post, local: true,data: { turbo: false } do %>
+  <div>
+    <%= label_tag :address, "Enter Address or Zip Code:" %>
+    <%= text_field_tag :address, params[:address], required: true %>
+  </div>
+  <%= submit_tag "Get Forecast" %>
+<% end %>
+
+<% if @weather_data.present? %>
+  <h3>Forecast for <%= @address %></h3>
+  <p>Temperature: <%= @weather_data[:temp] %>°C</p>
+  <p>Condition: <%= @weather_data[:description] %></p>
+  <p>High: <%= @weather_data[:high] %>°C | Low: <%= @weather_data[:low] %>°C</p>
+  <% if @from_cache %>
+    <p style="color: green;">(Fetched from cache ✅)</p>
+  <% end %>
+<% end %>
